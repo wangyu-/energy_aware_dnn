@@ -1,0 +1,82 @@
+
+var svg = d3.select("svg"),
+    inner = svg.select("g");
+
+// Set up zoom support
+var zoom = d3.zoom().on("zoom", function() {
+      inner.attr("transform", d3.event.transform);
+    });
+svg.call(zoom);
+
+// Create the renderer
+var render = new dagreD3.render();
+
+// Run the renderer. This is what draws the final graph.
+render(inner, g);
+
+/////////tooltip
+
+var styleTooltip = function(name, description) {
+  return "<p class='name'>" + name + "</p><p class='description'>" + description + "</p>";
+};
+
+inner.selectAll("g.node")
+  .attr("title", function(v) { return styleTooltip(v, g.node(v).description) })
+  .each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
+
+// Center the graph
+var initialScale = 0.75;
+svg.call(zoom.transform, d3.zoomIdentity.translate((svg.attr("width") - g.graph().width * initialScale) / 2, 20).scale(initialScale));
+
+//svg.attr('height', g.graph().height * initialScale + 40);
+
+
+</script>
+
+<style>
+body {
+  font: 300 14px 'Helvetica Neue', Helvetica;
+}
+
+.node circle
+{
+  stroke: #333;
+  fill: #fff;
+  stroke-width: 1.5px;
+}
+
+.node rect,
+.node ellipse,
+.node polygon {
+  stroke: #333;
+  fill: #fff;
+  stroke-width: 1.5px;
+}
+
+.edgePath path {
+  stroke: #333;
+  fill: #333;
+  stroke-width: 1.5px;
+}
+
+svg {
+  border: 1px solid #ccc;
+  overflow: hidden;
+  margin: 0 auto;
+    background:white;
+}
+
+/* This styles the title of the tooltip */
+.tipsy .name {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #60b1fc;
+  margin: 0;
+}
+
+/* This styles the body of the tooltip */
+.tipsy .description {
+  font-size: 1.5em;
+}
+
+</style>

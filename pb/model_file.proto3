@@ -1,0 +1,48 @@
+syntax = "proto3";
+package model_file;
+message Graph
+{
+    repeated Node nodes=1;
+    repeated Tensor tensors=2;
+    string comment=3;
+}
+message Node
+{
+    string name=1;
+    string type=2;
+    repeated Param params=3;	
+    repeated Rel inputs=4;
+    repeated Rel outputs=5;
+    string impl_name=100;
+}
+message Rel
+{
+    string idx=1;
+    string name=2;
+}
+message Tensor
+{
+    string name=1;
+    repeated int32 shape=2;
+    repeated float data=3;
+    bool is_input=4;
+    bool is_output=5;
+    string part_of=100;
+    int32 offset=101;
+}
+message Param
+{
+    string name=1;
+    Type type=100;	
+    int32 i=101;
+    float f=102;
+    string s=103;
+    repeated int32 ints=104;	
+}
+enum Type {
+    UNDEFINED = 0;
+    FLOAT = 1;
+    INT = 2;
+    STRING = 3;
+    INTS = 4;
+}

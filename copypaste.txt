@@ -1,0 +1,1 @@
+time sh run.sh ~/new_onnx/noopt_sq.onnx   &&  time sh run.sh ~/new_onnx/noopt_inc.onnx  &&  time sh run.sh ~/new_onnx/noopt_resnet.onnx
